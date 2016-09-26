@@ -1,0 +1,77 @@
+import java.util.Scanner;
+import java.util.Random;
+
+class Blackjack {
+
+    public static void main(String[] args) {
+        Scanner user_input = new Scanner( System.in );
+
+        Random rand = new Random();
+        Integer myCard1 = rand.nextInt(11) + 1;
+        Integer myCard2 = rand.nextInt(11) + 1;
+        Integer myTotal = myCard1 + myCard2;
+
+        Integer aiCard1 = rand.nextInt(11) + 1;
+        Integer aiCard2 = rand.nextInt(11) + 1;
+        Integer aiTotal = aiCard1 + aiCard2;
+
+
+        /// Intro and beginning card info.
+
+        System.out.println("Blackjack!");
+        System.out.println("You drew " + myCard1 + " and " + myCard2 + ".");
+        System.out.println("Your total is " + myTotal + ".\n");
+        System.out.println("The dealer has a " + aiCard1 + " showing, and a hidden card");
+        System.out.println("His total is hidden, too.\n");
+
+        // Loop for player hitting.
+
+        String playerChoice = "";
+
+        while(myTotal <= 21 && !playerChoice.equals("stay")) {
+            System.out.println("'hit' or 'stay'?");
+            playerChoice = user_input.next();
+            if(playerChoice.equals("hit")) {
+                Integer nextCard = rand.nextInt(11) + 1;
+                System.out.println("You drew " + nextCard + ".");
+                myTotal += nextCard;
+                System.out.println("Your total is " + myTotal);
+            } else if (!playerChoice.equals("stay")) {
+                System.out.println("'" + playerChoice + "' is not a valid command.");
+            }
+        }
+
+
+        if(myTotal > 21) {
+            System.out.println("You bust. Dealer wins.");
+        } else {
+
+            // Dealer hitting choices.
+
+            System.out.println("Okay, dealer's turn");
+            System.out.println("His hidden card was a " + aiCard2 + ".\n");
+            while (aiTotal < 16) {
+                Integer nextCard = rand.nextInt(11) + 1;
+                System.out.println("Dealer decides to hit.");
+                aiTotal += nextCard;
+                System.out.println("His total is " + aiTotal + ".\n");
+            }
+
+            //Game summary.
+
+            if (aiTotal < 21) {
+                System.out.println("Dealer stays.");
+            } else {
+                System.out.println("Dealer busts.");
+            }
+
+            if(myTotal > aiTotal || aiTotal > 21) {
+                System.out.println("YOU WIN!.");
+            } else if (myTotal == aiTotal) {
+                System.out.println("YOU tie.");
+            } else {
+                System.out.println("YOU LOSE. :(");
+            }
+        }
+    }
+}
